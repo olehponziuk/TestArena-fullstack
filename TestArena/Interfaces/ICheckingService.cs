@@ -10,4 +10,6 @@ public interface ICheckingService
     public  Task<int> SaveResult(ResultCreateDto resultDto);
 
     public  Task<TestResultResponse> GetAttemptResult(int attemptId);
+
+    public Task<IEnumerable<UsersResultItemDto>> GetAllForAuthor(int userId);
 }

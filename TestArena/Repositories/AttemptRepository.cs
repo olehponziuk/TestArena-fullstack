@@ -60,7 +60,19 @@ public class AttemptRepository: Repository<Attempt>
             .Include(a => a.User)
             .Include(a => a.Test)
             .Include(a => a.Results)
-            .FirstOrDefaultAsync();
+            .ThenInclude(r => r.Question )
+            .FirstOrDefaultAsync(a => a.Id == attemptId);
+    }
+
+    public async Task<IEnumerable<Attempt>> GetForUserWithDetails(int userId)
+    {
+        return await _Set
+            .Include(a => a.User)
+            .Include(a => a.Test)
+            .Include(a => a.Results)
+            .ThenInclude(r => r.Question)
+            .Where(a => a.User.Id == userId )
+            .ToListAsync();
     }
 
 }

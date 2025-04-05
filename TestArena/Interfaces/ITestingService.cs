@@ -9,4 +9,5 @@ public interface ITestingService
     public Task<TestStartDto> GetTestInfo(int testId);
     public Task<List<TestItemResponse>> GetAllTests();
     public Task<List<QuestionItemResponse>> GetTestQuestions(int testId);
+    public Task<List<TestItemResponse>> GetAllForAuthor(int userId);
 }

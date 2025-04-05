@@ -6,6 +6,7 @@ using TestArena.DTO;
 using TestArena.Interfaces;
 using TestArena.Models;
 using TestArena.Requests;
+using TestArena.Response;
 
 namespace TestArena.Controllers;
 [Authorize]
@@ -44,11 +45,13 @@ public class ResultsController : ControllerBase
                 });
             }
 
-
+            TestResultResponse response = await _checkingService.GetAttemptResult(attemptId);
             return Ok( new
             {
                 success = true,
-                score = await _checkingService.GetAttemptResult(attemptId)
+                score = response.Score,
+                value = response.Value,
+                maxValue = response.MaxValue
             });
         }
         catch (Exception e)

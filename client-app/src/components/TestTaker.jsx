@@ -260,12 +260,12 @@ function TestTaker()
 
         const handleComplate = async (e) =>
         {
-
             e.preventDefault();
             const attemptData = localStorage.getItem("AttemptData");
+            console.log("HHHJ")
             console.log(attemptData ? JSON.parse(attemptData) : "AttemptData не знайдено");
             saveAttempt();
-            navigate("reslut");
+            navigate("/result");
         }
     
         return (
@@ -326,11 +326,7 @@ function TestTaker()
         Далі
       </button>
     )}
-</div>
-
-
-
-      
+</div>      
     </div>
     
     

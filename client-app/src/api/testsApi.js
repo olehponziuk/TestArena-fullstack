@@ -149,7 +149,7 @@ export const saveAttempt = async () =>
 {
     try{
         const attemp = JSON.parse(localStorage.getItem("AttemptData"));
-        
+        console.log("ATTMP: " + attemp.testId )
         const response = await api.post("http://localhost:5066/results/create/new", attemp,
             {
                 headers:{
@@ -158,10 +158,12 @@ export const saveAttempt = async () =>
                 }
             }
         );
-        clearTakeData();
-        console.log(response.data);
-        localStorage.getItem("Score", JSON.stringify(response.data.score));
-        
+       clearTakeData();
+       
+        localStorage.setItem("Score", JSON.stringify(response.data.score));
+        localStorage.setItem("MaxValue", JSON.stringify(response.data.maxValue));
+        localStorage.setItem("Value", JSON.stringify(response.data.value));
+
     }
     catch{
 

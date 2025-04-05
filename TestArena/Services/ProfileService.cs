@@ -1,4 +1,5 @@
 using TestArena.Interfaces;
+using TestArena.Models;
 using TestArena.Repositories;
 
 namespace TestArena.Services;
@@ -12,6 +13,11 @@ public class ProfileService : IProfileService
     {
         _unit = unit;
         _userRepository = (UserRepository)unit.Users;
+    }
+    
+    public async Task<User> GetUserByEmail(string email)
+    {
+        return await _userRepository.GetByEmailAsync(email);
     }
     public async Task<string> GetUserName(string email)
     {

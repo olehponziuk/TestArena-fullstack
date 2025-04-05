@@ -13,10 +13,14 @@ namespace TestArena.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IProfileService _profileService;
+    private readonly ITestingService _testingService;
+    private readonly ICheckingService _checkingService;
 
-    public HomeController(IProfileService profileService)
+    public HomeController(IProfileService profileService, ITestingService testingService, ICheckingService checkingService)
     {
         _profileService = profileService;
+        _testingService = testingService;
+        _checkingService = checkingService;
     }
     
     [HttpGet]
@@ -37,7 +41,7 @@ public class HomeController : ControllerBase
         {
             return Ok(new
             {
-                success = true,
+                success = false,
                 message = e.Message
             });
         }
@@ -45,16 +49,58 @@ public class HomeController : ControllerBase
     }
     
     [HttpGet]
-    [Route("tests")]
-    public async Task<IActionResult> GetTests()
-    {
-        return Ok();
-    }
-    [HttpGet]
     [Route("attempts")]
     public async Task<IActionResult> GetAttempts()
     {
         return Ok();
+    }
+
+    [HttpGet]
+    [Route("tests")]
+    public async Task<IActionResult> GetUserTests()
+    {
+        try
+        {
+            string? email = User.FindFirst(ClaimTypes.Email)?.Value;
+            int userId = (await _profileService.GetUserByEmail(email)).Id;
+            return Ok(new
+            {
+                success = true,
+                Tests = await _testingService.GetAllForAuthor(userId)
+            });
+        }
+        catch (Exception e)
+        {
+            return Ok(new
+            {
+                success = false,
+                message = e.Message
+            });
+        }
+    }
+    
+    [HttpGet]
+    [Route("results")]
+    public async Task<IActionResult> GetUserTResults()
+    {
+        try
+        {
+            string? email = User.FindFirst(ClaimTypes.Email)?.Value;
+            int userId = (await _profileService.GetUserByEmail(email)).Id;
+            return Ok(new
+            {
+                success = true,
+                Tests = await _checkingService.GetAllForAuthor(userId)
+            });
+        }
+        catch (Exception e)
+        {
+            return Ok(new
+            {
+                success = false,
+                message = e.Message
+            });
+        }
     }
     
     

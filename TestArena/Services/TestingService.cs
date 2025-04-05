@@ -56,6 +56,26 @@ public class TestingService : ITestingService
         return testResponses;
     }
 
+    public async Task<List<TestItemResponse>> GetAllForAuthor(int userId)
+    {
+        var tests = await _testRepository.GetTestsForAuthor(userId);
+        var testResponses = new List<TestItemResponse>();
+
+        foreach (var t in tests)
+        {
+            var author = await _testRepository.GetAuthorForTestAsync(t.Id);
+            testResponses.Add(new TestItemResponse
+            {
+                Id = t.Id,
+                Title = t.Title,
+                PhoneColor = t.PhoneColor,
+                AuthorName = author?.UserName
+            });
+        }
+
+        return testResponses;
+    }
+
     public async Task<List<QuestionItemResponse>> GetTestQuestions(int testId)
     {
         Test? test = await _testRepository.GetAsync(testId);

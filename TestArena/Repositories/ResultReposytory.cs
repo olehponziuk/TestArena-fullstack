@@ -28,4 +28,6 @@ public class ResultRepository : Repository<Result>
         return result.Attempt;
     }
     
+    //public async Task<Result> 
+    
 }

@@ -40,6 +40,13 @@ public class TestRepository : Repository<Test>
         if (!test.Questions.Contains(question))
             test.Questions.Add(question);
     }
+
+    public async Task<IEnumerable<Test>> GetTestsForAuthor(int userId)
+    {
+        return await _Set
+            .Include(t => t.Author)
+            .Where(t => t.Author.Id == userId).ToListAsync();
+    }
     
     public async Task<IEnumerable<Attempt>> GetAttemptsForUserAndTestAsync(int userId, int testId)
     {
